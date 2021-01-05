@@ -6,47 +6,38 @@ class ViewController: UIViewController {
     @IBOutlet weak var displayLabel: UILabel!
     
     private var isFinishedTypingNumber = true
-    private var displayDouble: Double {
-        get{
-            guard let number = Double(displayLabel.text!) else {
-                fatalError("displayLabel cant convert to Double")
-            }
-            return number
-        }
-        set{
-            displayLabel.text = String(newValue)
-        }
-    }
+    private var main = CalculatorMain()
     
     @IBAction func calcButtonPressed(_ sender: UIButton) {
         
         isFinishedTypingNumber = true
-
-        if let calc = sender.currentTitle{
-            if calc == "+/-" {
-                displayDouble = displayDouble * -1
-            }else if calc == "%" {
-                displayDouble = displayDouble / 100
-            }else if calc == "AC" {
-                displayDouble = 0
+        
+        guard let number = Double(displayLabel.text!) else {
+            fatalError("displayLabel cant convert to Double")
+        }
+        if let calcButt = sender.currentTitle{
+            if let text = main.runCalcaulator(calc: calcButt, input: number){
+                displayLabel.text = text
             }
         }
     }
-
     
     @IBAction func numButtonPressed(_ sender: UIButton) {
 
-        if let numberPressed = sender.currentTitle{
+        if let numberButt = sender.currentTitle{
             if isFinishedTypingNumber {
-                displayLabel.text = numberPressed
+                displayLabel.text = numberButt
                 isFinishedTypingNumber = false
             }else{
-                if numberPressed == "." {
-                    if displayDouble != floor(displayDouble){
+                guard let number = Double(displayLabel.text!) else {
+                    fatalError("displayLabel cant convert to Double")
+                }
+                if numberButt == "." {
+                    if number != floor(number){
                         return
                     }
                 }
-                displayLabel.text?.append(numberPressed)
+                displayLabel.text?.append(numberButt)
             }
         }
     }

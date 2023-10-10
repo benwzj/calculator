@@ -1,2 +1,2 @@
-A calcuator dome for iPhone 
+A calcuator demo for iOS
 Using Swift
